@@ -1,7 +1,5 @@
 package br.com.comercial.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
@@ -9,21 +7,22 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "pfisica")
 public class PessoaFisica extends Pessoa {
 
-    public PessoaFisica(){}
+    @Column(length = 124, nullable = false)
+    @NotNull(message = "informe campo nome")
+    @NotEmpty(message = "informe campo nome")
+    @NotBlank(message = "informe campo nome")
+    private String nome;
 
-    public PessoaFisica(String cpf, String rg, Date dataNascimento, Contato contato, Usuario usuario) {
-        this.cpf = cpf;
-        this.rg = rg;
-        this.dataNascimento = dataNascimento;
-        this.contato = contato;
-        this.usuario = usuario;
-    }
+    @Column(length = 124, nullable = false)
+    @NotNull(message = "informe campo sobrenome")
+    @NotEmpty(message = "informe campo sobrenome")
+    @NotBlank(message = "informe campo sobrenome")
+    private String sobenome;
 
     @Column(length = 13, nullable = false)
     @NotNull(message = "informe campo CPF")
@@ -48,12 +47,22 @@ public class PessoaFisica extends Pessoa {
     @org.hibernate.annotations.ForeignKey(name = "fk_contato")
     private Contato contato;
 
-    @NotNull
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
-    @org.hibernate.annotations.ForeignKey(name = "fk_usuario")
-    private Usuario usuario;
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSobenome() {
+        return sobenome;
+    }
+
+    public void setSobenome(String sobenome) {
+        this.sobenome = sobenome;
+    }
 
     public String getCpf() {
         return cpf;
@@ -79,13 +88,6 @@ public class PessoaFisica extends Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
     public Contato getContato() {
         return contato;
@@ -93,31 +95,5 @@ public class PessoaFisica extends Pessoa {
 
     public void setContato(Contato contato) {
         this.contato = contato;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PessoaFisica that = (PessoaFisica) o;
-        return Objects.equals(cpf, that.cpf) &&
-                Objects.equals(rg, that.rg) &&
-                Objects.equals(dataNascimento, that.dataNascimento);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cpf, rg, dataNascimento);
-    }
-
-    @Override
-    public String toString() {
-        return "PessoaFisica{" +
-                "cpf='" + cpf + '\'' +
-                ", rg='" + rg + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                ", contato=" + contato +
-                ", usuario=" + usuario +
-                '}';
     }
 }

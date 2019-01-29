@@ -65,6 +65,12 @@ public class Endereco extends GenericDomain{
     @org.hibernate.annotations.ForeignKey(name = "estado_id")
     private Estado estado;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "usuario_id",referencedColumnName = "id",nullable = false)
+    @org.hibernate.annotations.ForeignKey(name = "fk_usuario")
+    private Usuario usuario;
+
     public String getLagradouro() {
         return lagradouro;
     }
@@ -119,6 +125,14 @@ public class Endereco extends GenericDomain{
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

@@ -1,46 +1,42 @@
 package br.com.comercial.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
+
+import org.hibernate.annotations.ForeignKey;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
-@MappedSuperclass
+
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa extends GenericDomain {
+public abstract class Pessoa extends GenericDomain {
 
-    @Column(length = 124, nullable = false)
-    @NotNull(message = "informe campo nome")
-    @NotEmpty(message = "informe campo nome")
-    @NotBlank(message = "informe campo nome")
-    private String nome;
+    @NotNull
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
+    @org.hibernate.annotations.ForeignKey(name = "fk_usuario")
+    private Usuario usuario;
 
-    @Column(length = 124, nullable = false)
-    @NotNull(message = "informe campo sobrenome")
-    @NotEmpty(message = "informe campo sobrenome")
-    @NotBlank(message = "informe campo sobrenome")
-    private String sobenome;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "endereco")
+    @JoinColumn(name = "endereco",referencedColumnName = "id",nullable = false)
+    @ForeignKey(name = "fk_endereco")
+    private List<Endereco> enderecos = new ArrayList<>();
 
-    public String getNome() {
-        return nome;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public String getSobenome() {
-        return sobenome;
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
     }
 
-    public void setSobenome(String sobenome) {
-        this.sobenome = sobenome;
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 }

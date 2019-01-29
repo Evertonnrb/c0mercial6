@@ -1,6 +1,8 @@
 package br.com.comercial.testes;
 
 import br.com.comercial.dao.GenericDao;
+import br.com.comercial.model.Pessoa;
+import br.com.comercial.model.PessoaJuridica;
 import br.com.comercial.util.ValidadorUtil;
 import br.com.comercial.model.Estado;
 import org.junit.Test;
@@ -23,5 +25,11 @@ public class TestValidacoesEstados {
     @Test
     public void deveSavarEstado(){
         assertTrue(daoEstado.salvar(estado));
+    }
+
+    @Test
+    public void testIntancia(){
+        Pessoa juridica = new PessoaJuridica();
+
     }
 }
